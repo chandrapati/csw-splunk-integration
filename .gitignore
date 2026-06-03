@@ -1,0 +1,3 @@
+# Generated PDF (large binary — regenerate with build.sh)
+*.pdf
+.DS_Store
