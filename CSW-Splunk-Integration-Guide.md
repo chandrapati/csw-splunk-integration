@@ -5,6 +5,19 @@
 
 ---
 
+> **⚠ Disclaimer**
+> This document is a **community reference guide** prepared by Cisco Solutions Engineering to help teams get started with the CSW → Splunk integration. It is **not an official Cisco product document** and may not reflect the latest software versions, features, or configuration options.
+>
+> Always refer to the **official Cisco documentation** for authoritative, up-to-date guidance:
+> - [Cisco Secure Workload Documentation Hub](https://www.cisco.com/c/en/us/support/security/tetration/series.html)
+> - [CSW 4.0 Configure Alerts](https://www.cisco.com/c/en/us/td/docs/security/workload_security/secure_workload/user-guide/4_0/cisco-secure-workload-user-guide-on-prem-v40/configure-alerts.html)
+> - [CSW 4.0 Connectors Guide](https://www.cisco.com/c/en/us/td/docs/security/workload_security/secure_workload/user-guide/4_0/cisco-secure-workload-user-guide-on-prem-v40/configure-and-manage-connectors-for-secure-workload.html)
+> - [Cisco Security Cloud App for Splunk (Splunkbase)](https://splunkbase.splunk.com/app/7404)
+>
+> Cisco product names, logos, and trademarks are the property of Cisco Systems, Inc.
+
+---
+
 ## Video Walkthrough — Cisco SE Demo (8 min)
 
 > **Watch this first.** Cisco Senior Solutions Engineer Jorge Quintero demonstrates the complete CSW → Splunk integration end-to-end in this 8-minute walkthrough recorded December 2025.

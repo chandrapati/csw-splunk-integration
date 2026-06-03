@@ -6,6 +6,8 @@ A step-by-step integration guide for streaming Cisco Secure Workload (CSW) alert
 [![Splunk](https://img.shields.io/badge/Splunk-Enterprise%20%2F%20Cloud-65A637?logo=splunk&logoColor=white)](https://splunkbase.splunk.com/app/7404)
 [![App Version](https://img.shields.io/badge/Cisco%20Security%20Cloud%20App-v3.6.5-007BC7)](https://splunkbase.splunk.com/app/7404)
 
+> **⚠ Disclaimer:** This is a **community reference guide** prepared by Cisco Solutions Engineering — not an official Cisco product document. Always refer to the [official Cisco Secure Workload documentation](https://www.cisco.com/c/en/us/support/security/tetration/series.html) and the [Cisco Security Cloud App on Splunkbase](https://splunkbase.splunk.com/app/7404) for authoritative, up-to-date guidance.
+
 ---
 
 ## What This Covers
