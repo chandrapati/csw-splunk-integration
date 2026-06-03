@@ -63,6 +63,15 @@ echo "$CSS" | pandoc "$MD" \
   --css /dev/stdin \
   -o "$HTML"
 
+# Remove the duplicate pandoc-generated title block (the markdown h1 is the real title)
+python3 -c "
+import sys, re
+path = sys.argv[1]
+html = open(path).read()
+html = re.sub(r'<header[^>]*id=\"title-block-header\"[^>]*>.*?</header>\n?', '', html, flags=re.DOTALL)
+open(path, 'w').write(html)
+" "$HTML"
+
 # Inject YouTube iframe
 python3 - "$HTML" << 'PY'
 import sys, re
