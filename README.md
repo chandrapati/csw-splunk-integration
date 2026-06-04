@@ -98,32 +98,24 @@ Cisco Senior SE Jorge Quintero demonstrates the full integration in **8 minutes*
 
 ## Related Cisco Secure Workload Resources
 
-Other public repositories that walk the full CSW journey — from onboarding to compliance reporting:
+| Repository | Description | Best for |
+|------------|-------------|---------|
+| [CSW-User-Education](https://github.com/chandrapati/CSW-User-Education) | Onboarding guides and concept explainers | New CSW users |
+| [CSW-Agent-Installation-Guide](https://github.com/chandrapati/CSW-Agent-Installation-Guide) | Deploy CSW agents on Linux/Windows/cloud | Day-1 sensor deployment |
+| [CSW-Policy-Lifecycle](https://github.com/chandrapati/CSW-Policy-Lifecycle) | Policy discovery → enforcement workflow | Policy management |
+| [csw-ise-integration](https://github.com/chandrapati/csw-ise-integration) | ISE/pxGrid: user-identity–aware microsegmentation | Identity & Zero Trust |
+| [csw-anyconnect-nvm](https://github.com/chandrapati/csw-anyconnect-nvm) | AnyConnect NVM: endpoint process flows + user identity | Endpoint telemetry |
+| [csw-servicenow-integration](https://github.com/chandrapati/csw-servicenow-integration) | ServiceNow CMDB label enrichment for workload scopes | CMDB-driven policy |
+| [csw-aws-connector](https://github.com/chandrapati/csw-aws-connector) | AWS VPC label ingestion + Security Group enforcement | AWS workloads |
+| [csw-azure-connector](https://github.com/chandrapati/csw-azure-connector) | Azure VNet label ingestion + NSG enforcement | Azure workloads |
+| [csw-gcp-connector](https://github.com/chandrapati/csw-gcp-connector) | GCP VPC label ingestion + firewall enforcement | GCP workloads |
+| [csw-netflow-integration](https://github.com/chandrapati/csw-netflow-integration) | NetFlow v9/IPFIX agentless flow ingestion from switches | Network fabric visibility |
+| [csw-erspan-integration](https://github.com/chandrapati/csw-erspan-integration) | ERSPAN agentless packet mirroring for legacy/OT/IoT | Agentless deep visibility |
+| [CSW-Secure-Firewall-Integration-Guide](https://github.com/chandrapati/CSW-Secure-Firewall-Integration-Guide) | NSEL from Cisco Secure Firewall (FTD/ASA) | Firewall flow visibility |
+| [csw-splunk-integration](https://github.com/chandrapati/csw-splunk-integration) | CSW syslog alerts → Splunk SIEM | SecOps / SIEM teams |
+| [CSW-Compliance-Mapping](https://github.com/chandrapati/CSW-Compliance-Mapping) | Map CSW to NIST, PCI-DSS, HIPAA, CIS | Compliance & audit |
+| [CSW-Tenant-Insights](https://github.com/chandrapati/CSW-Tenant-Insights) | Tenant-level reporting and analytics | Visibility metrics |
+| [CSW-Operations-Toolkit](https://github.com/chandrapati/CSW-Operations-Toolkit) | Day-2 ops scripts: health checks, reporting, policy analysis | Ongoing operations |
 
-| Repository | What It Covers | Best For |
-|---|---|---|
-| [**CSW-User-Education**](https://github.com/chandrapati/CSW-User-Education) | Intro guide, curated video library, and customer onboarding runbook | Anyone new to CSW — great first stop |
-| [**CSW-Agent-Installation-Guide**](https://github.com/chandrapati/CSW-Agent-Installation-Guide) | Host agent install across Linux, Windows, cloud, containers, and agentless | Operations and deployment teams |
-| [**CSW-Policy-Lifecycle**](https://github.com/chandrapati/CSW-Policy-Lifecycle) | Full policy lifecycle: ADM discovery → Monitor → Simulate → Enforce + day-2 ops | SE/SA and customer engineering |
-| [**CSW-Compliance-Mapping**](https://github.com/chandrapati/CSW-Compliance-Mapping) | Customer-facing compliance reports for HIPAA, SOC 2, PCI DSS v4, NIST 800-53, ISO 27001, CISA ZTMM, FIPS 140 | CISO, GRC, and audit teams |
-| [**CSW-Operations-Toolkit**](https://github.com/chandrapati/CSW-Operations-Toolkit) | Reusable POV engagement toolkit — clone for each new engagement | SEs running a CSW proof-of-value |
-| [**csw_blast_radius_demo**](https://github.com/chandrapati/csw_blast_radius_demo) | Hands-on demo showing blast radius reduction via microsegmentation | Demo and lab environments |
-| [**CSW-ServiceNow-Connector-Guide**](https://github.com/chandrapati/CSW-ServiceNow-Connector-Guide) | ServiceNow CMDB connector (Inventory Enrichment): setup, label usage, operations, and limits — validated against CSW 4.0 docs | SE/SA and platform/CMDB teams |
-
-| [csw-ise-integration](https://github.com/chandrapati/csw-ise-integration) | ISE/pxGrid integration: user-identity–aware microsegmentation via pxGrid 2.0 | Identity & Zero Trust |
-
-> **Suggested path for a new customer:**
-> User-Education → Agent-Installation-Guide → Policy-Lifecycle → (Splunk integration — this repo) → Compliance-Mapping
-
----
-
-## References
-
-- [Cisco Security Cloud App on Splunkbase](https://splunkbase.splunk.com/app/7404)
-- [CSW 4.0 Configure Alerts — official docs](https://www.cisco.com/c/en/us/td/docs/security/workload_security/secure_workload/user-guide/4_0/cisco-secure-workload-user-guide-on-prem-v40/configure-alerts.html)
-- [Cisco Security Cloud App — CSW config guide](https://www.cisco.com/c/en/us/td/docs/security/cisco-secure-cloud-app/user-guide/cisco-security-cloud-user-guide/m_configure_cisco_products_in_cisco_security_cloud.html)
-- [CSW 4.0 Connectors User Guide](https://www.cisco.com/c/en/us/td/docs/security/workload_security/secure_workload/user-guide/4_0/cisco-secure-workload-user-guide-on-prem-v40/configure-and-manage-connectors-for-secure-workload.html)
-
----
-
-*Prepared by Cisco Solutions Engineering. Community contributions welcome — open a PR or issue.*
+> **Suggested customer journey:**  
+> CSW-User-Education → CSW-Agent-Installation-Guide → CSW-Policy-Lifecycle → csw-ise-integration → csw-servicenow-integration → csw-splunk-integration → CSW-Compliance-Mapping → CSW-Operations-Toolkit
