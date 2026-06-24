@@ -1,5 +1,7 @@
 # Cisco Secure Workload → Splunk Integration Guide
 
+![Visitors](https://visitor-badge.laobi.icu/badge?page_id=chandrapati.csw-splunk-integration&left_text=visitors)
+
 A step-by-step integration guide for streaming Cisco Secure Workload (CSW) alerts and compliance events into Splunk using the **Cisco Security Cloud App for Splunk**.
 
 [![Cisco Secure Workload](https://img.shields.io/badge/Cisco-Secure%20Workload-00205B?logo=cisco&logoColor=white)](https://www.cisco.com/go/secureworkload)
