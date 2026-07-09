@@ -98,7 +98,7 @@ Cisco Senior SE Jorge Quintero demonstrates the full integration in **8 minutes*
 
 ---
 
-## Related Cisco Secure Workload Resources
+## CSW Integration Guides & Resources
 
 | Repository | Description | Best for |
 |------------|-------------|---------|
