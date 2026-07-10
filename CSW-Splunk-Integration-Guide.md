@@ -282,6 +282,95 @@ Configure the following alert rules in CSW (**Alerts Config**) and route them to
 
 ---
 
+## Part 5 — All CSW Alert Notifiers (beyond Splunk / Syslog)
+
+Splunk is the flagship **SIEM** target in this guide, but CSW's alerting subsystem can publish the **same alerts** to several other destinations. Every notifier runs as a connector on the **Edge appliance**, handled by the **TAN (Tetration Alert Notifier)** Docker service, and every alert rule in **Alerts Config** simply selects a **Publisher**. So once you understand the Syslog flow above, adding any other notifier is the same pattern: **create the notifier connector → point alert rules at it as the publisher.**
+
+### 5.1 Notifier catalog
+
+| Notifier | Best for | Key fields you configure | Transport |
+|---|---|---|---|
+| **Syslog** | Any SIEM (Splunk, QRadar, Microsoft Sentinel, Elastic, Chronicle) | Protocol (UDP/TCP), server IP, port | Syslog UDP/TCP |
+| **Email** | Human notification / ticket intake mailboxes | SMTP server + port, (optional) SMTP username/password, From address, default recipients | SMTP |
+| **Slack** | ChatOps — a SecOps channel | Slack **Incoming Webhook URL** | HTTPS webhook |
+| **PagerDuty** | On-call escalation / paging | PagerDuty **Integration (service) key** | HTTPS (Events API) |
+| **Kinesis** | AWS-native streaming / data-lake pipelines | AWS **Access Key**, **Secret Key**, **Region**, **Stream name** | AWS Kinesis Data Stream |
+| **Webex** | ChatOps — a Webex space | Webex **Incoming Webhook URL** | HTTPS webhook |
+| **Discord** | ChatOps — a Discord channel | Discord **Webhook URL** | HTTPS webhook |
+
+> **Same alerts, many destinations.** You can route the *same* alert types (Compliance, Forensics, Sensors, Traffic, Connectors, Enforcement) to any combination of the above — e.g. Splunk for the record, PagerDuty to page on-call, and Slack for the SecOps channel.
+
+### 5.2 Where to configure
+
+**Path:** `Manage → Workloads → Virtual Appliances` → select the **Edge** appliance → **Connectors** tab → **+ Add Connector** → choose the notifier type. Then in **Alerts Config**, set each rule's **Publisher** to that notifier.
+
+### 5.3 Per-notifier configuration
+
+#### Email
+| Field | Value / notes |
+|---|---|
+| **SMTP server / port** | Reachable from the Edge appliance |
+| **SMTP username / password** | **Optional** — if omitted, CSW connects to the SMTP server **without authentication** |
+| **From address** | Sender shown on alert emails |
+| **Default recipients** | Used unless a specific rule overrides recipients in Alerts Config |
+
+#### Slack
+1. In Slack, create an **Incoming Webhook** for the target channel (Slack → Apps → Incoming Webhooks).
+2. In CSW, add the **Slack** connector and paste the **Webhook URL**.
+3. Point alert rules at the Slack publisher.
+
+#### PagerDuty
+1. In PagerDuty, create an **Events API** integration on the target service and copy the **Integration Key**.
+2. In CSW, add the **PagerDuty** connector and paste the **Integration Key**.
+3. Route **HIGH/CRITICAL** rules here so on-call gets paged.
+
+#### Kinesis
+| Field | Value / notes |
+|---|---|
+| **AWS Access Key / Secret Key** | For an IAM principal with `kinesis:PutRecord*` on the target stream (least-privilege) |
+| **Region** | AWS region of the stream |
+| **Stream name** | Existing Kinesis Data Stream |
+
+> **Security (per repo policy):** treat the AWS keys, webhook URLs, PagerDuty key, and SMTP password as **secrets** — store them in a secrets manager, never in source control. Prefer scoped/least-privilege credentials.
+
+#### Webex
+1. In a **Webex space**, add an **Incoming Webhook** integration and copy the **Webhook URL**.
+2. In CSW, add the **Webex** connector and paste the URL.
+3. **Limitations:** Webex connector delivers **alert notifications only** (one space per connector); it is not a full bidirectional integration.
+
+#### Discord
+1. In a **Discord channel**, create a **Webhook** (Channel → Integrations → Webhooks) and copy the URL.
+2. In CSW, add the **Discord** connector and paste the **Webhook URL**.
+3. **Limitations:** notifications only, one channel per connector.
+
+#### Generic Syslog → any SIEM
+The Syslog notifier isn't Splunk-specific. Point it at **QRadar, Microsoft Sentinel (via a syslog forwarder/AMA), Elastic, Chronicle**, or any syslog collector — set **Protocol/IP/Port** to the collector and adjust the **Severity Mapping** to match that SIEM's expectations.
+
+### 5.4 Limits & sizing (per notifier)
+
+| Constraint | Detail |
+|---|---|
+| **Per Edge appliance** | Typically **one connector of each notifier type** per Edge appliance |
+| **Per tenant (root scope)** | Typically **one connector of each type** per root scope |
+| **Runs on** | The **TAN** Docker service on the Edge appliance (watch its health under Virtual Appliances → Edge → Connectors) |
+| **Distributed Splunk** | Modular input must run on the **Heavy Forwarder** (see Part 2) |
+
+> If you need more than one destination of the same type, aggregate first (e.g. one Syslog → a SIEM that fans out, or PagerDuty/Slack routing rules downstream).
+
+### 5.5 Recommended routing pattern
+
+| Alert type | Severity | Splunk (SIEM) | PagerDuty | Slack/Webex | Email |
+|---|---|:---:|:---:|:---:|:---:|
+| Forensics (MITRE ATT&CK) | CRITICAL | ✅ | ✅ | ✅ | — |
+| Compliance → catch-all DENY | HIGH | ✅ | ✅ | ✅ | — |
+| Sensors (agent down) | HIGH | ✅ | ✅ | ✅ | ✅ |
+| Connectors / appliance health | HIGH | ✅ | — | ✅ | ✅ |
+| Traffic (malicious IP) | MEDIUM | ✅ | — | ✅ | — |
+
+> **Pattern:** **SIEM (Splunk/Syslog) for the system of record**, **PagerDuty for paging**, **Slack/Webex for the SecOps channel**, **Email for health/digest**. Same CSW alert, multiple publishers.
+
+---
+
 ## Troubleshooting
 
 ### No Events Appearing in Splunk
@@ -341,6 +430,8 @@ CSW generates a **"Missing heartbeats"** alert (Severity: HIGH) if the Edge appl
 | Cisco Security Cloud App for Splunk (Splunkbase) | https://splunkbase.splunk.com/app/7404 |
 | Cisco Security Cloud App — CSW Config Guide | https://www.cisco.com/c/en/us/td/docs/security/cisco-secure-cloud-app/user-guide/cisco-security-cloud-user-guide/m_configure_cisco_products_in_cisco_security_cloud.html |
 | CSW 4.0 Connectors User Guide | https://www.cisco.com/c/en/us/td/docs/security/workload_security/secure_workload/user-guide/4_0/cisco-secure-workload-user-guide-on-prem-v40/configure-and-manage-connectors-for-secure-workload.html |
+| CSW — Connectors for Alert Notifications (Syslog/Email/Slack/PagerDuty/Kinesis/Webex/Discord) | https://www.cisco.com/c/en/us/td/docs/security/workload_security/secure_workload/user-guide/4_0/cisco-secure-workload-user-guide-on-prem-v40/configure-and-manage-connectors-for-secure-workload.html |
+| CSW 4.0 Configure Alerts | https://www.cisco.com/c/en/us/td/docs/security/workload_security/secure_workload/user-guide/4_0/cisco-secure-workload-user-guide-on-prem-v40/configure-alerts.html |
 | Demo video (Cisco SE walkthrough) | https://www.youtube.com/watch?v=CRnkH9imTZk |
 
 ---
